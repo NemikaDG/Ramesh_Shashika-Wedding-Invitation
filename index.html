@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding Invitation | Shashika & Rumesh</title>
+
+    <!-- Meta Tags for WhatsApp/Social Link Preview -->
+    <meta
+      property="og:title"
+      content="Wedding Invitation | Shashika & Rumesh"
+    />
+    <meta
+      property="og:description"
+      content="We joyfully invite you to celebrate our wedding day! Click to view your personalized invitation."
+    />
+    <meta
+      property="og:image"
+      content="https://shashika-weds-rumesh.vercel.app/wedding-image.jpg"
+    />
+    <meta itemprop="image" content="https://shashika-weds-rumesh.vercel.app/wedding-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1388" />
+    <meta property="og:image:height" content="2080" />
+    <meta
+      property="og:url"
+      content="https://shashika-weds-rumesh.vercel.app/"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- IMPORTANT: Once you deploy to a service like Vercel or Netlify, 
+         replace 'https://your-domain.com/' with your actual live URL 
+         in the meta tags above for the preview to work correctly. -->
+    <meta
+      name="description"
+      content="You are cordially invited to the wedding celebration of Rumesh &amp; Shashika. Join us for a beautiful ceremony filled with love and joy."
+    />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Alex+Brush&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Splash Screen Overlay -->
+    <div id="splashScreen" class="splash-screen">
+      <div class="splash-content">
+        <div class="splash-ornament">❧</div>
+        <p class="splash-subtitle">A Celebration of Love</p>
+        <h1 class="splash-names">Shashika & Rumesh</h1>
+        <p id="splashGreeting" class="splash-invitation">
+          You are cordially invited to witness our union
+        </p>
+        <div class="splash-divider">
+          <span class="line"></span>
+          <i class="fas fa-heart"></i>
+          <span class="line"></span>
+        </div>
+        <button id="enterBtn" class="splash-open-btn">
+          <span class="btn-text">Open Invitation</span>
+          <div class="btn-ripple"></div>
+        </button>
+      </div>
+      <div id="liquidContainer" class="liquid-container"></div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop autoplay preload="auto">
+      <source src="wedding-music.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Control Button -->
+    <button class="music-toggle-btn" id="musicToggleBtn" title="Toggle Music">
+      <i class="fas fa-volume-up"></i>
+    </button>
+
+    <!-- Rose Petal Canvas -->
+    <canvas id="petalsCanvas" class="petals-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="mainNav">
+      <div class="nav-logo">S &amp; R</div>
+      <ul class="nav-links">
+        <li><a href="#countdown">Countdown</a></li>
+        <li><a href="#venue">Venue</a></li>
+        <li><a href="#agenda">Agenda</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-rsvp-btn" id="navRsvpBtn">RSVP Now</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-particles" id="heroParticles"></div>
+      <div class="hero-content">
+        <p class="hero-invite-text">Together with their families,</p>
+        <div class="hero-divider">
+          <span class="divider-line"></span>
+          <i class="fas fa-heart divider-heart"></i>
+          <span class="divider-line"></span>
+        </div>
+        <h1 class="bride-groom-names">
+          <span class="name bride-name">Shashika</span>
+          <span class="ampersand">&amp;</span>
+          <span class="name groom-name">Rumesh</span>
+        </h1>
+        <p class="hero-invite-text" style="margin-top: 15px">
+          joyfully invite you to celebrate their wedding
+        </p>
+        <div class="hero-divider">
+          <span class="divider-line"></span>
+          <i class="fas fa-ring divider-heart"></i>
+          <span class="divider-line"></span>
+        </div>
+        <p class="wedding-tagline">Forever Begins Here</p>
+        <div class="wedding-date-badge">
+          <span class="date-day">13</span>
+          <div class="date-month-year">
+            <span>September</span>
+            <span>2026</span>
+          </div>
+        </div>
+        <p class="hero-venue-hint">
+          <i class="fas fa-map-marker-alt"></i> Resheen Hotel and Banquets,
+          Kotadeniyawa
+        </p>
+        <a href="#countdown" class="hero-scroll-btn">
+          <i class="fas fa-chevron-down"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section" id="countdown">
+      <div class="section-header">
+        <p class="section-subtitle">The Big Day Is Almost Here</p>
+        <h2 class="section-title">Counting Down To <em>Forever</em></h2>
+        <div class="section-ornament">❧</div>
+      </div>
+      <div class="countdown">
+        <div class="countdown-item">
+          <div class="countdown-ring">
+            <svg viewBox="0 0 120 120" class="ring-svg" id="dayRing">
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="rgba(212,165,116,0.15)"
+                stroke-width="6"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#d4a574"
+                stroke-width="6"
+                stroke-dasharray="339.3"
+                stroke-dashoffset="0"
+                stroke-linecap="round"
+                transform="rotate(-90 60 60)"
+                class="ring-progress"
+                id="dayProgress"
+              />
+            </svg>
+            <div class="countdown-inner">
+              <div class="countdown-number" id="days">00</div>
+              <div class="countdown-label">Days</div>
+            </div>
+          </div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-ring">
+            <svg viewBox="0 0 120 120" class="ring-svg">
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="rgba(212,165,116,0.15)"
+                stroke-width="6"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#d4a574"
+                stroke-width="6"
+                stroke-dasharray="339.3"
+                stroke-dashoffset="0"
+                stroke-linecap="round"
+                transform="rotate(-90 60 60)"
+                class="ring-progress"
+                id="hourProgress"
+              />
+            </svg>
+            <div class="countdown-inner">
+              <div class="countdown-number" id="hours">00</div>
+              <div class="countdown-label">Hours</div>
+            </div>
+          </div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-ring">
+            <svg viewBox="0 0 120 120" class="ring-svg">
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="rgba(212,165,116,0.15)"
+                stroke-width="6"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#d4a574"
+                stroke-width="6"
+                stroke-dasharray="339.3"
+                stroke-dashoffset="0"
+                stroke-linecap="round"
+                transform="rotate(-90 60 60)"
+                class="ring-progress"
+                id="minProgress"
+              />
+            </svg>
+            <div class="countdown-inner">
+              <div class="countdown-number" id="minutes">00</div>
+              <div class="countdown-label">Minutes</div>
+            </div>
+          </div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-ring">
+            <svg viewBox="0 0 120 120" class="ring-svg">
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="rgba(212,165,116,0.15)"
+                stroke-width="6"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="54"
+                fill="none"
+                stroke="#c9945a"
+                stroke-width="6"
+                stroke-dasharray="339.3"
+                stroke-dashoffset="0"
+                stroke-linecap="round"
+                transform="rotate(-90 60 60)"
+                class="ring-progress"
+                id="secProgress"
+              />
+            </svg>
+            <div class="countdown-inner">
+              <div class="countdown-number" id="seconds">00</div>
+              <div class="countdown-label">Seconds</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="story-section">
+      <div class="story-container">
+        <div class="story-text">
+          <p class="section-subtitle">How It All Began</p>
+          <h2 class="section-title">Our Love Story</h2>
+          <div class="section-ornament">❧</div>
+          <p class="story-para">
+            We first met on a golden summer evening at a mutual friend's
+            gathering — a single glance across the room was all it took. From
+            that moment, our worlds beautifully collided.
+          </p>
+          <p class="story-para">
+            After years of adventures, quiet evenings, and a love that only grew
+            deeper with each passing day, Rumesh got down on one knee at their
+            favourite sunset spot — the answer was still the same:
+            <em>Yes, always.</em>
+          </p>
+          <p class="story-para">
+            Now, we invite those who mean the most to us to witness as we begin
+            the greatest chapter of our lives.
+          </p>
+        </div>
+        <div class="story-image-wrap">
+          <div class="story-image-frame">
+            <img src="Rings.jpg" alt="Wedding Rings" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+          </div>
+          <div class="story-badge">💍</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Venue Section -->
+    <section class="venue-section" id="venue">
+      <div class="section-header light">
+        <p class="section-subtitle">You Are Invited To Join Us At</p>
+        <h2 class="section-title">Wedding Venue</h2>
+        <div class="section-ornament">❧</div>
+      </div>
+      <div class="venue-container">
+        <div class="venue-details-card">
+          <div class="venue-icon-wrap">
+            <i class="fas fa-landmark"></i>
+          </div>
+          <h3 class="venue-name">Resheen Hotel and Banquets</h3>
+          <p class="venue-tagline">Where Dreams Become Memories</p>
+          <div class="venue-info-list">
+            <div class="venue-info-item">
+              <div class="venue-info-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div>
+                <strong>Address</strong>
+                <p>Resheen Hotel and Banquets,<br />Kotadeniyawa, Sri Lanka</p>
+              </div>
+            </div>
+            <div class="venue-info-item">
+              <div class="venue-info-icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <div>
+                <strong>Date</strong>
+                <p>Wednesday, 13th September 2026</p>
+              </div>
+            </div>
+            <div class="venue-info-item">
+              <div class="venue-info-icon"><i class="fas fa-clock"></i></div>
+              <div>
+                <strong>Time</strong>
+                <p>Poruwa Ceremony at 09:15 AM<br />Doors open at 08:00 AM</p>
+              </div>
+            </div>
+            <div class="venue-info-item">
+              <div class="venue-info-icon"><i class="fas fa-parking"></i></div>
+              <div>
+                <strong>Parking</strong>
+                <p>self-parking available</p>
+              </div>
+            </div>
+          </div>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Resheen+Hotel+and+Banquets,+Kotadeniyawa"
+            target="_blank"
+            class="directions-btn"
+          >
+            <i class="fas fa-directions"></i> Get Directions
+          </a>
+        </div>
+        <div class="venue-map-card">
+          <iframe
+            src="https://maps.google.com/maps?q=Resheen%20Hotel%20and%20Banquets%20Kotadeniyawa&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="100%"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Resheen Hotel and Banquets - Wedding Venue"
+          >
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Agenda Section -->
+    <section class="agenda-section" id="agenda">
+      <div class="section-header">
+        <p class="section-subtitle">Plan Your Evening</p>
+        <h2 class="section-title">Wedding Day <em>Agenda</em></h2>
+        <div class="section-ornament">❧</div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item" data-animate>
+          <div class="timeline-time">08:00 AM</div>
+          <div class="timeline-marker">
+            <div class="marker-icon"><i class="fas fa-door-open"></i></div>
+          </div>
+          <div class="timeline-content">
+            <h3 data-time="08:00 AM">Doors Open</h3>
+            <p>Welcome &amp; Guest Arrival</p>
+            <p class="timeline-desc">
+              Guests are warmly welcomed and seated. Enjoy soft background music
+              as the venue fills with love.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-animate>
+          <div class="timeline-time">09:15 AM</div>
+          <div class="timeline-marker">
+            <div class="marker-icon"><i class="fas fa-ring"></i></div>
+          </div>
+          <div class="timeline-content">
+            <h3 data-time="09:15 AM">Poruwa Ceremony</h3>
+            <p>Traditional Wedding Customs</p>
+            <p class="timeline-desc">
+              Join us for the auspicious Poruwa ceremony, where Shashika and
+              Rumesh will partake in traditional rituals to bless their union.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-animate>
+          <div class="timeline-time">12:12 PM</div>
+          <div class="timeline-marker">
+            <div class="marker-icon"><i class="fas fa-utensils"></i></div>
+          </div>
+          <div class="timeline-content">
+            <h3 data-time="12:12 PM">Lunch</h3>
+            <p>Wedding Reception Lunch</p>
+            <p class="timeline-desc">
+              Enjoy a delicious lunch featuring both vegetarian and
+              non-vegetarian delicacies.
+            </p>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-animate>
+          <div class="timeline-time">03:18 PM</div>
+          <div class="timeline-marker">
+            <div class="marker-icon"><i class="fas fa-heart"></i></div>
+          </div>
+          <div class="timeline-content">
+            <h3 data-time="03:18 PM">Farewell</h3>
+            <p>Newlywed Send-off</p>
+            <p class="timeline-desc">
+              Join us in sending off the newlyweds with love, joy, and heartfelt
+              blessings as they embark on their new journey together.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call To Action RSVP Section -->
+    <section class="cta-section">
+      <div class="cta-overlay"></div>
+      <div class="cta-content">
+        <div class="section-header light">
+          <p class="section-subtitle">Be Part Of Our Story</p>
+          <h2 class="section-title">Will You Join Us?</h2>
+          <div class="section-ornament">❧</div>
+        </div>
+        <p class="cta-text">
+          Your presence would mean the world to us as we begin our new life
+          together. Please let us know if you can make it.
+        </p>
+        <button class="cta-rsvp-btn" id="ctaRsvpBtn">
+          <i class="fas fa-envelope-open-text"></i> RSVP Now
+        </button>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+      <div class="section-header">
+        <p class="section-subtitle">Reach Out To Us</p>
+        <h2 class="section-title">Contact the <em>Couple</em></h2>
+        <div class="section-ornament">❧</div>
+      </div>
+      <div class="contact-container">
+        <div class="contact-card bride-contact">
+          <div class="contact-photo bride-photo">
+            <div class="photo-placeholder">
+              <img src="bride_vector.png" alt="Bride" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+            </div>
+            <div class="contact-role-badge bride-badge">The Bride</div>
+          </div>
+          <h3>Shashika</h3>
+          <p class="contact-surname">The Bride</p>
+          <div class="contact-info">
+            <a href="tel:+94771336913" class="contact-info-item">
+              <div class="contact-info-icon">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <span>077 133 6913</span>
+            </a>
+            <a
+              href="https://wa.me/94771336913"
+              target="_blank"
+              class="contact-info-item"
+            >
+              <div class="contact-info-icon">
+                <i class="fab fa-whatsapp"></i>
+              </div>
+              <span>WhatsApp Shashika</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-divider">
+          <div class="heart-divider">
+            <i class="fas fa-heart"></i>
+            <p>Together</p>
+            <p>Forever</p>
+          </div>
+        </div>
+
+        <div class="contact-card groom-contact">
+          <div class="contact-photo groom-photo">
+            <div class="photo-placeholder">
+              <img src="groom_vector.png" alt="Groom" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+            </div>
+            <div class="contact-role-badge groom-badge">The Groom</div>
+          </div>
+          <h3>Rumesh</h3>
+          <p class="contact-surname">The Groom</p>
+          <div class="contact-info">
+            <a href="tel:+94740690527" class="contact-info-item">
+              <div class="contact-info-icon">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <span>074 069 0527</span>
+            </a>
+            <a
+              href="https://wa.me/94740690527"
+              target="_blank"
+              class="contact-info-item"
+            >
+              <div class="contact-info-icon">
+                <i class="fab fa-whatsapp"></i>
+              </div>
+              <span>WhatsApp Rumesh</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-names">Shashika &amp; Rumesh</div>
+        <p class="footer-date">13 · September · 2026</p>
+        <div class="footer-divider-line"></div>
+        <p class="footer-quote">"Two souls, one heart, one forever."</p>
+        <p class="footer-copy">
+          &copy; 2026 Shashika &amp; Rumesh Wedding. Made with
+          <i class="fas fa-heart"></i> for our special day.
+        </p>
+      </div>
+    </footer>
+
+    <!-- RSVP Modal -->
+    <div
+      id="rsvpModal"
+      class="rsvp-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="rsvpModalTitle"
+    >
+      <div class="rsvp-modal-backdrop" id="rsvpBackdrop"></div>
+      <div class="modal-content">
+        <button class="close-btn" id="closeModal" aria-label="Close RSVP form">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-header">
+          <div class="modal-ring-icon"><i class="fas fa-ring"></i></div>
+          <h2 id="rsvpModalTitle">RSVP</h2>
+          <p>Let us know you'll be joining us!</p>
+        </div>
+
+        <!-- Name Entry Step -->
+        <div id="nameStep" class="modal-step">
+          <div class="form-group">
+            <label for="manualName">Your Full Name *</label>
+            <input
+              type="text"
+              id="manualName"
+              class="form-input"
+              placeholder="Enter your full name"
+              autocomplete="name"
+            />
+          </div>
+          <button type="button" id="proceedBtn" class="proceed-btn">
+            Continue <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- RSVP Form Step -->
+        <form id="rsvpForm" class="rsvp-form" style="display: none">
+          <div class="form-group">
+            <label for="guestName">Confirming RSVP for</label>
+            <input
+              type="text"
+              id="guestName"
+              name="guestName"
+              class="form-input"
+              readonly
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Will you be attending? *</label>
+            <div class="attendance-options">
+              <label class="attendance-card" id="yesCard">
+                <input type="radio" name="attendance" value="yes" required />
+                <div class="attendance-card-inner">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Joyfully Accepts</span>
+                </div>
+              </label>
+              <label class="attendance-card" id="noCard">
+                <input type="radio" name="attendance" value="no" required />
+                <div class="attendance-card-inner">
+                  <i class="fas fa-times-circle"></i>
+                  <span>Regretfully Declines</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <input type="hidden" id="guestPhone" name="guestPhone" />
+
+          <div class="form-group">
+            <label for="specialNote">Message to Bride & Groom</label>
+            <textarea
+              id="specialNote"
+              name="specialNote"
+              class="form-input form-textarea"
+              placeholder="Wishes, notes, or special requirements..."
+              rows="4"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Submit RSVP
+          </button>
+        </form>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message" style="display: none">
+          <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+          <h3>Thank You!</h3>
+          <p>
+            Your RSVP has been received. We can't wait to celebrate with you on
+            our special day! ❤️
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gooey Filter for Jelly Effect -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: none">
+      <defs>
+        <filter id="gooey">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9"
+            result="gooey"
+          />
+          <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guest Management | Admin Panel</title>
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- SheetJS for Excel Export -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="admin.css?v=2026042405" />
+  </head>
+  <body class="admin-body">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="overlay">
+      <div class="login-card">
+        <div class="login-header">
+          <h2>Wedding Guest List</h2>
+          <p>Private Admin Access</p>
+        </div>
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              required
+              placeholder="Enter username"
+            />
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              required
+              placeholder="Enter password"
+            />
+          </div>
+          <button type="submit" class="btn-login">
+            Login <i class="fas fa-lock-open"></i>
+          </button>
+          <p id="loginError" class="error-text"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="dashboard hidden">
+      <div class="sticky-top-section">
+        <header class="dash-header">
+          <div class="user-info">
+          <h1>Guest Management</h1>
+          <p>Rumesh & Shashika Wedding</p>
+        </div>
+        <div class="user-actions">
+          <button id="undoBtn" class="btn-outline" disabled title="Undo (0)">
+            <i class="fas fa-undo"></i>
+          </button>
+          <button id="redoBtn" class="btn-outline" disabled title="Redo (0)">
+            <i class="fas fa-redo"></i>
+          </button>
+          <button
+            id="syncRSVPBtn"
+            class="btn-outline"
+          >
+            <i class="fas fa-sync"></i> Sync RSVP
+          </button>
+          <button
+            id="darkModeToggle"
+            class="btn-outline"
+            title="Toggle Dark Mode"
+          >
+            <i class="fas fa-moon"></i>
+          </button>
+          <button id="logoutBtn" class="btn-secondary">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
+      </header>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-label">Total Guests</span>
+            <span id="totalGuests" class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Sent</span>
+            <span id="sentCount" class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Attending</span>
+            <span id="attendingCount" class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Pending</span>
+            <span id="pendingCount" class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Not Attending</span>
+            <span id="notAttendingCount" class="stat-value">0</span>
+          </div>
+          <div class="search-container">
+            <span class="stat-label">Search Guests</span>
+            <div class="search-input-wrapper">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" id="searchInput" placeholder="Search name, mobile, type, category..." class="search-input" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main class="dash-content">
+        <div class="table-container">
+          <table id="guestTable">
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="selectAllGuests" class="select-all-cb"> #</th>
+                <th>Guest Name</th>
+                <th>Category</th>
+                <th>WhatsApp Number</th>
+                <th>+Person / Type</th>
+                <th>Send Invitation</th>
+                <th id="sortStatusBtn" style="cursor: pointer;" title="Sort by Sent Status">Status (Sent) <i class="fas fa-sort" style="color: var(--grey); margin-left: 5px;"></i></th>
+                <th id="sortRsvpBtn" style="cursor: pointer;" title="Sort by RSVP">Respond (RSVP) <i class="fas fa-sort" style="color: var(--grey); margin-left: 5px;"></i></th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="guestTableBody">
+              <!-- Guest Rows Injected Here -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <button id="openAddModal" class="btn-primary">
+            <i class="fas fa-plus"></i> Add Guest
+          </button>
+          <button id="exportExcelBtn" class="btn-outline">
+            <i class="fas fa-file-excel"></i> Export as an .xlsx File
+          </button>
+          <input
+            type="file"
+            id="importExcelFile"
+            accept=".xlsx, .xls"
+            style="display: none"
+          />
+          <button id="importExcelBtn" class="btn-outline">
+            <i class="fas fa-file-import"></i> Import data from .xlsx File
+          </button>
+        </div>
+      </main>
+    </div>
+
+    <!-- Guest Modal (Add & Edit) -->
+    <div id="guestModal" class="modal">
+      <div class="modal-content">
+        <h3 id="modalTitle">Add New Guest</h3>
+        <form id="guestForm">
+          <div class="input-group">
+            <label>Guest Name</label>
+            <input
+              type="text"
+              id="guestName"
+              required
+              placeholder="Full Name"
+            />
+          </div>
+          <div class="input-group">
+            <label>WhatsApp Number</label>
+            <input
+              type="tel"
+              id="whatsappNumber"
+              required
+              placeholder="+94771234567 or +44..."
+            />
+          </div>
+
+          <div class="invite-type-group">
+            <label>Invitation Type</label>
+            <div class="type-options">
+              <label class="type-option">
+                <input type="radio" name="inviteType" value="single" checked />
+                <span>Single</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="inviteType" value="mrmrs" />
+                <span>Mr & Mrs</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="inviteType" value="family" />
+                <span>Family</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="plusCountContainer" class="input-group short">
+            <label>+Person(s)</label>
+            <input type="number" id="plusCount" value="0" min="0" />
+          </div>
+
+          <div class="invite-type-group">
+            <label>Guest Category</label>
+            <div class="type-options">
+              <label class="type-option">
+                <input
+                  type="radio"
+                  name="guestCategory"
+                  value="civilian"
+                  checked
+                />
+                <span>Civilian</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="guestCategory" value="army" />
+                <span>Army</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="guestCategory" value="navy" />
+                <span>Navy</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="guestCategory" value="airforce" />
+                <span>Airforce</span>
+              </label>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" id="closeGuestModal" class="btn-text">
+              Cancel
+            </button>
+            <button type="submit" id="saveGuestBtn" class="btn-primary">
+              Save Guest
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Alert Modal (Custom Notification) -->
+    <div id="alertModal" class="modal" style="z-index: 2100;">
+      <div class="modal-content alert-content">
+        <div id="alertIconContainer" class="alert-icon">
+          <i class="fas fa-exclamation-circle"></i>
+        </div>
+        <h3 id="alertTitle">Notification</h3>
+        <p id="alertMessage"></p>
+        <div class="modal-actions">
+          <button type="button" id="closeAlertModal" class="btn-primary">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sync Confirmation Modal -->
+    <div id="syncConfirmModal" class="modal" style="z-index: 2100;">
+      <div class="modal-content alert-content">
+        <div class="alert-icon">
+          <i class="fas fa-sync-alt" style="color: var(--gold)"></i>
+        </div>
+        <h3>Sync RSVPs</h3>
+        <p id="syncSummaryText"></p>
+        <div class="modal-actions" style="margin-top: 20px">
+          <button type="button" id="cancelSyncBtn" class="btn-text">
+            Cancel
+          </button>
+          <button type="button" id="approveSyncBtn" class="btn-primary">
+            Approve &amp; Sync
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="modal" style="z-index: 2100;">
+      <div class="modal-content alert-content">
+        <div class="alert-icon">
+          <i class="fas fa-exclamation-triangle" style="color: var(--error)"></i>
+        </div>
+        <h3>Confirm Deletion</h3>
+        <p id="deleteConfirmText"></p>
+        <div class="modal-actions" style="margin-top: 20px">
+          <button type="button" id="cancelDeleteBtn" class="btn-text">
+            Cancel
+          </button>
+          <button type="button" id="approveDeleteBtn" class="btn-danger">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Action Button for Batch Actions -->
+    <div id="batchFabContainer" class="fab-container hidden">
+      <button id="batchFabBtn" class="fab-btn" title="Batch Actions">
+        <i class="fas fa-layer-group"></i>
+        <span id="batchSelectedCount" class="fab-badge">0</span>
+      </button>
+    </div>
+
+    <!-- Batch Actions Modal -->
+    <div id="batchActionsModal" class="modal">
+      <div class="modal-content">
+        <h3>Batch Edit Guests</h3>
+        <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-mid);">Leave fields blank if you do not want to change them for the selected guests.</p>
+        <form id="batchEditForm">
+          <div class="invite-type-group">
+            <label>Invitation Type</label>
+            <div class="type-options">
+              <label class="type-option">
+                <input type="radio" name="batchInviteType" value="unchanged" checked />
+                <span>No Change</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="batchInviteType" value="single" />
+                <span>Single</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="batchInviteType" value="mrmrs" />
+                <span>Mr & Mrs</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="batchInviteType" value="family" />
+                <span>Family</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="batchPlusCountContainer" class="input-group short" style="display: none;">
+            <label>+Person(s)</label>
+            <input type="number" id="batchPlusCount" value="0" min="0" />
+          </div>
+
+          <div class="invite-type-group">
+            <label>Guest Category</label>
+            <div class="type-options">
+              <label class="type-option">
+                <input type="radio" name="batchGuestCategory" value="unchanged" checked />
+                <span>No Change</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="batchGuestCategory" value="civilian" />
+                <span>Civilian</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="batchGuestCategory" value="army" />
+                <span>Army</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="batchGuestCategory" value="navy" />
+                <span>Navy</span>
+              </label>
+              <label class="type-option">
+                <input type="radio" name="batchGuestCategory" value="airforce" />
+                <span>Airforce</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label>Sent Status</label>
+            <select id="batchSentStatus" style="width: 100%; padding: 12px; border: 2px solid var(--cream-dark); border-radius: 8px;">
+              <option value="unchanged">No Change</option>
+              <option value="sent">Mark as Sent</option>
+              <option value="pending">Mark as Pending (Not Sent)</option>
+            </select>
+          </div>
+
+          <div class="modal-actions" style="margin-top: 30px; justify-content: space-between;">
+            <button type="button" id="batchDeleteBtn" class="btn-danger" style="padding: 10px 15px; border-radius: 8px; background: #feeae6;">
+              <i class="fas fa-trash-alt"></i> Delete Selected
+            </button>
+            <div style="display: flex; gap: 10px;">
+              <button type="button" id="closeBatchModal" class="btn-text">Cancel</button>
+              <button type="submit" id="saveBatchBtn" class="btn-primary" style="width: auto;">Apply Edits</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+
+    <script src="admin.js?v=2026042404"></script>
+  </body>
+</html>
