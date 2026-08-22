@@ -15,8 +15,8 @@ if (!firebase.apps.length) {
 const db = firebase.firestore();
 
 // Admin Credentials
-const ADMIN_USER = "Rumesh94";
-const ADMIN_PASS = "Rumesh2026";
+const ADMIN_USER = "rumesh";
+const ADMIN_PASS = "2026";
 
 // State Management
 let guests = JSON.parse(localStorage.getItem("wedding_guests")) || [];
