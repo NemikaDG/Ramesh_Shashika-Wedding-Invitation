@@ -360,7 +360,7 @@ tbody td {
 
 .type-option:has(input:checked) {
     border-color: var(--gold);
-    background: #fdfaf5;
+    background: var(--cream-dark);
 }
 /* Responsive Media Queries */
 @media (max-width: 992px) {
