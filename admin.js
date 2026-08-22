@@ -128,6 +128,19 @@ const guestModal = document.getElementById("guestModal");
 const guestForm = document.getElementById("guestForm");
 let editingIndex = -1;
 const alertModal = document.getElementById("alertModal");
+
+const togglePasswordBtn = document.getElementById("togglePasswordBtn");
+const passwordInput = document.getElementById("password");
+const togglePasswordIcon = document.getElementById("togglePasswordIcon");
+
+if (togglePasswordBtn) {
+  togglePasswordBtn.addEventListener("click", () => {
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    togglePasswordIcon.classList.toggle("fa-eye");
+    togglePasswordIcon.classList.toggle("fa-eye-slash");
+  });
+}
 const alertMessage = document.getElementById("alertMessage");
 const closeAlertBtn = document.getElementById("closeAlertModal");
 

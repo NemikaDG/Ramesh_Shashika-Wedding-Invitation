@@ -832,3 +832,30 @@ input:focus {
     justify-content: center;
     border: 2px solid var(--white);
 }
+
+/* Password Visibility Toggle */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px;
+}
+#togglePasswordBtn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-mid);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#togglePasswordBtn:hover {
+    color: var(--gold);
+}
