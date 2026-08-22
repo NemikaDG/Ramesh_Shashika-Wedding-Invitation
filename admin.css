@@ -372,10 +372,11 @@ tbody td {
 
 /* Landscape-specific compression for mobile/tablets */
 @media (max-width: 992px) and (orientation: landscape) {
-    .dashboard { padding: 0 4px 4px 4px; display: flex; flex-direction: column; overflow: hidden; height: 100vh; }
-    .dash-content { min-height: 0; flex: 1; overflow: hidden; display: flex; flex-direction: column; padding: 0 4px 4px 4px; }
-    .table-container { flex: 1; overflow: auto; }
-    .sticky-top-section { padding: 4px; margin: 0; position: relative; flex-shrink: 0; }
+    body.admin-body { height: auto; overflow: visible; min-height: 100vh; }
+    .dashboard { padding: 0 4px 4px 4px; display: block; overflow: visible; height: auto; min-height: 100vh; }
+    .dash-content { min-height: unset; display: block; overflow: visible; padding: 0 4px 100px 4px; }
+    .table-container { overflow: visible; flex: unset; }
+    .sticky-top-section { padding: 4px; margin: 0; position: sticky; top: 0; z-index: 100; background: var(--cream); }
     
     .dash-header { padding-bottom: 2px; margin-bottom: 2px; flex-wrap: nowrap; flex-direction: row; align-items: center; justify-content: space-between; border-bottom: none; }
     .user-info { display: flex; align-items: baseline; gap: 8px; flex-wrap: nowrap; }
@@ -421,10 +422,11 @@ tbody td {
 }
 
 @media (max-width: 768px) and (orientation: portrait) {
-    .dashboard { padding: 0 6px 6px 6px; display: block; overflow-y: auto; height: 100vh; }
-    .dash-content { display: block; overflow: visible; min-height: unset; }
+    body.admin-body { height: auto; overflow: visible; min-height: 100vh; }
+    .dashboard { padding: 0 6px 6px 6px; display: block; overflow: visible; height: auto; min-height: 100vh; }
+    .dash-content { display: block; overflow: visible; min-height: unset; padding-bottom: 120px; }
     .table-container { overflow: visible; }
-    .sticky-top-section { padding: 8px; margin: 0 -6px; position: static; }
+    .sticky-top-section { padding: 8px; margin: 0 -6px; position: sticky; top: 0; z-index: 100; background: var(--cream); }
     .dash-header { flex-direction: column; text-align: center; gap: 8px; padding-bottom: 4px; margin-bottom: 4px; }
     .dash-header .user-info { order: 1; }
     .dash-header h1 { font-size: 1.15rem; margin-bottom: 0; }
