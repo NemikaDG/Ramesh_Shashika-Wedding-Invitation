@@ -591,9 +591,9 @@ function getInvitationText(guest) {
 
   return `${sparkle} A Beautiful Journey Begins ${sparkle}
 Dear ${guest.name},
-Together with our families, we,
-Shashika & Rumesh, joyfully invite
-you to share in our happiness as we
+Together with our families,
+ we, Shashika & Rumesh, 
+joyfully invite you to share in our happiness as we
 unite in marriage. ${ring}${heart}
 Your presence and blessings would
 mean the world to us as we step
